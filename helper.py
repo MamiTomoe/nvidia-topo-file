@@ -12,7 +12,7 @@ def get_output_dict() -> Any:
     return new_path
 
 
-def parse_switch_connection(result: Tuple[Any]) -> tuple[int, Any, Union[str, Any], int, Any]:
+def parse_switch_connection(result: Tuple[Any]) -> Tuple[int, Any, Union[str, Any], int, Any]:
     source_port, _, device_id, dest_port, port_guid = result
     device_type, node_guid = parse_device_connection(device_id)
     return int(source_port), device_type, node_guid, int(dest_port), port_guid.strip('()')
@@ -24,7 +24,7 @@ def parse_device_connection(device_id: str) -> Tuple[Any, str]:
     return device_type, f"0x{node_guid}"
 
 
-def parse_host_connection(result: Tuple[Any]) -> tuple[int, Any, Union[str, Any], int, Any]:
+def parse_host_connection(result: Tuple[Any]) -> Tuple[int, Any, Union[str, Any], int, Any]:
     source_port, port_guid, device_id, dest_port, _ = result
     device_type, node_guid = parse_device_connection(device_id)
     return int(source_port), device_type, node_guid, int(dest_port), port_guid.strip('()')
@@ -41,7 +41,7 @@ def find_general_pattern(pattern: str, block: str) -> Union[str, None]:
     return result.group().split("=")[-1] if result else ""
 
 
-def find_device_info(pattern: str, block: str) -> tuple[Union[str, Any], int, str, Any]:
+def find_device_info(pattern: str, block: str) -> Tuple[Union[str, Any], int, str, Any]:
     device_type, num_of_ports, device_guid, device_letter = "", 0, "", ""
     result = re.search(pattern, block)
     if result:
